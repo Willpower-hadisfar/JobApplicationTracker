@@ -39,21 +39,21 @@ explicit request to land this before the HTTP layer.
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Check | Result |
-|---|---|---|
-| I. Event Sourcing via Emmett (NON-NEGOTIABLE) | New fields flow through `ApplicationSubmitted`'s event data and the `evolve` fold, exactly like the existing fields — no direct state mutation introduced | PASS |
-| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | New given-when-then cases added to `submit-application/decide.spec.ts` before the `decide.ts`/`events.ts`/`state.ts` changes are made | PASS |
-| III. Granular Vertical Slice Architecture | No new slice needed — this is a field extension of the existing `submit-application` slice, not a new command; it does not introduce a shared handler file | PASS |
-| IV. Decisive Greenfield Architecture | Field shapes (Permanent/Contract only, amount+currency not ranges, free-text benefits) decided outright based on user confirmation, not hedged | PASS |
-| V. Simplicity: No Board, No Board-Driven Tooling | No board used; this plan follows the same Spec Kit chain as feature 001 | PASS |
+| Principle                                        | Check                                                                                                                                                      | Result |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| I. Event Sourcing via Emmett (NON-NEGOTIABLE)    | New fields flow through `ApplicationSubmitted`'s event data and the `evolve` fold, exactly like the existing fields — no direct state mutation introduced  | PASS   |
+| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | New given-when-then cases added to `submit-application/decide.spec.ts` before the `decide.ts`/`events.ts`/`state.ts` changes are made                      | PASS   |
+| III. Granular Vertical Slice Architecture        | No new slice needed — this is a field extension of the existing `submit-application` slice, not a new command; it does not introduce a shared handler file | PASS   |
+| IV. Decisive Greenfield Architecture             | Field shapes (Permanent/Contract only, amount+currency not ranges, free-text benefits) decided outright based on user confirmation, not hedged             | PASS   |
+| V. Simplicity: No Board, No Board-Driven Tooling | No board used; this plan follows the same Spec Kit chain as feature 001                                                                                    | PASS   |
 
 No violations — Complexity Tracking table is not needed.
 
-*Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
+_Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
 five principles — no new slice, no new shared file, and the field extension flows through the
-existing decider/evolve pattern unchanged.*
+existing decider/evolve pattern unchanged._
 
 ## Project Structure
 
@@ -94,4 +94,4 @@ FR-012 still only mandates company/role/stage/idle-time there (spec.md FR-007).
 
 ## Complexity Tracking
 
-*No violations — table omitted.*
+_No violations — table omitted._

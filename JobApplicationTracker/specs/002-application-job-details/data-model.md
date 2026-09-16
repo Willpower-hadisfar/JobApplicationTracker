@@ -5,13 +5,13 @@ event change; `InterviewRound`, `Offer`, and `ActivePipelineEntry` are unaffecte
 
 ## Entity: Application (decider state) — extended fields
 
-| Field | Type | Notes |
-|---|---|---|
-| `location` | string | Required. Free text (e.g. "Remote", "London, UK") — no structured breakdown (spec Assumptions) |
-| `salary` | `{ amount: number, currency: string } \| undefined` | Optional — "not disclosed" if absent (FR-002) |
-| `employmentType` | `"Permanent" \| "Contract"` | Required (FR-003) |
-| `bonus` | `{ amount: number, currency: string } \| undefined` | Optional — "not offered" if absent (FR-004) |
-| `benefits` | `string[]` | Required field, but may be an empty array (FR-005) |
+| Field            | Type                                                | Notes                                                                                          |
+| ---------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `location`       | string                                              | Required. Free text (e.g. "Remote", "London, UK") — no structured breakdown (spec Assumptions) |
+| `salary`         | `{ amount: number, currency: string } \| undefined` | Optional — "not disclosed" if absent (FR-002)                                                  |
+| `employmentType` | `"Permanent" \| "Contract"`                         | Required (FR-003)                                                                              |
+| `bonus`          | `{ amount: number, currency: string } \| undefined` | Optional — "not offered" if absent (FR-004)                                                    |
+| `benefits`       | `string[]`                                          | Required field, but may be an empty array (FR-005)                                             |
 
 All other `Application` fields (`applicationId`, `company`, `role`, `status`, `rounds`, `offer`,
 `lastActivityAt`) are unchanged from feature 001.

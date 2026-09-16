@@ -8,7 +8,7 @@
 
 **Input**: User description: "Swap the in-memory event store for Postgres, so tracked application data survives server restarts, as the prerequisite before deploying the tracker anywhere (e.g. GCP) — deployment itself is a separate, later step." (builds on features 001–004; the deferred half of ADR 1's "in-memory first, Postgres once the logic's solid")
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Tracked applications survive a server restart (Priority: P1)
 
@@ -74,7 +74,7 @@ its own database.
   development/testing so far)? → Out of scope to migrate — see Assumptions; the in-memory store
   was always ephemeral, so there is nothing durable to carry forward.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -88,7 +88,7 @@ its own database.
   feature changes storage only, never business logic.
 - **FR-005**: The active-pipeline overview and application-detail views (features 003/004) MUST
   correctly reflect all applications' current state when backed by Postgres, including
-  discovering applications created in a *previous* run of the system (something the in-memory
+  discovering applications created in a _previous_ run of the system (something the in-memory
   store's process-local registry could never do, since it never survived a restart either).
 - **FR-006**: The ghosting check MUST continue to operate correctly against data that persists
   across restarts — including applications that went silent in a previous run.
@@ -106,7 +106,7 @@ No new entities and no change to existing ones (`Application`, `InterviewRound`,
 `ActivePipelineEntry`) — this feature changes only where their event history is stored, not what
 is tracked.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

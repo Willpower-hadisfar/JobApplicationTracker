@@ -10,8 +10,8 @@ the resulting decisions and the alternatives considered, per the research task f
 - **Decision**: Model `Application` as an Emmett decider — `decide(command, state) → event[]` plus
   `evolve(state, event) → state` — rather than a mutable row updated in place.
 - **Rationale**: This is the explicit purpose of the project (ADR 1) and is required by constitution
-  Principle I (NON-NEGOTIABLE). It also matches the domain: the guards ("can't schedule round *N+1*
-  before round *N*'s outcome", "can't receive an offer without a preceding pass", "closed
+  Principle I (NON-NEGOTIABLE). It also matches the domain: the guards ("can't schedule round _N+1_
+  before round _N_'s outcome", "can't receive an offer without a preceding pass", "closed
   applications reject everything") are naturally expressed as decisions over folded state.
 - **Alternatives considered**: Direct relational CRUD (rejected — defeats the project's purpose and
   violates Principle I); a generic state-machine library instead of Emmett specifically (rejected —
@@ -50,7 +50,7 @@ the resulting decisions and the alternatives considered, per the research task f
   necessarily shared across every command's decider (Emmett's decider signature requires a single
   fold function per aggregate to reconstruct state from history) — this is inherent to the decider
   pattern itself, not a business-logic catch-all, so it does not violate the "no shared catch-all
-  files" rule, which targets shared *decision*/*handler*/*routing* logic.
+  files" rule, which targets shared _decision_/_handler_/_routing_ logic.
 - **Alternatives considered**: One file per aggregate containing all command handlers (rejected —
   directly the "shared handlers.ts" pattern Principle III prohibits); slices grouped by pipeline
   stage instead of by command (rejected — coarser than "granular," and stage boundaries are fuzzier

@@ -1,5 +1,5 @@
-import { PostgreSqlContainer } from "@testcontainers/postgresql";
-import { getPostgreSQLEventStore } from "@event-driven-io/emmett-postgresql";
+import { PostgreSqlContainer } from '@testcontainers/postgresql';
+import { getPostgreSQLEventStore } from '@event-driven-io/emmett-postgresql';
 
 /**
  * Vitest globalSetup: one shared Postgres container for the whole test run (research.md) — far
@@ -13,7 +13,7 @@ import { getPostgreSQLEventStore } from "@event-driven-io/emmett-postgresql";
  * @testcontainers/postgresql is the actual library doing the work underneath it either way.
  */
 export default async function setup() {
-  const container = await new PostgreSqlContainer("postgres:17-alpine").start();
+  const container = await new PostgreSqlContainer('postgres:17-alpine').start();
   const connectionString = container.getConnectionUri();
   process.env.DATABASE_URL = connectionString;
 

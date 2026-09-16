@@ -15,6 +15,7 @@ Sync Impact Report
 ## Core Principles
 
 ### I. Event Sourcing via Emmett (NON-NEGOTIABLE)
+
 State MUST be modeled as a decider (commands → events → state), built with
 `@event-driven-io/emmett`, never as direct CRUD/relational state mutation. Start on
 `getInMemoryEventStore` for fast iteration; swap to Postgres as the event store once the
@@ -24,6 +25,7 @@ never a direct query against event-derived state.
 `docs/ADRs.md`, ADR 1); a CRUD shortcut would defeat its purpose.
 
 ### II. Test-First, Given-When-Then (NON-NEGOTIABLE)
+
 Every command handler MUST have a passing `deciderSpecification` given-when-then test before
 it is considered done. This covers the happy path and every guard: the multi-round
 interview-sequencing guard, the offer-requires-pass guard, and rejection once the aggregate is
@@ -32,6 +34,7 @@ closed (`Accepted`/`Declined`/`Withdrawn`/`Ghosted`).
 untested guards are unverified guards.
 
 ### III. Granular Vertical Slice Architecture
+
 The codebase MUST be organized as one slice per command — `SubmitApplication`,
 `ScheduleInterview`, `RecordInterviewOutcome`, `ReceiveOffer`, `AcceptOffer`, `DeclineOffer`,
 `WithdrawApplication`, `MarkGhosted` — plus one slice for the `active pipeline` read model and
@@ -43,6 +46,7 @@ and testable in isolation.
 side effect of feature-based organization.
 
 ### IV. Decisive Greenfield Architecture
+
 There is no legacy codebase to stay compatible with. Architecture and technology decisions MUST
 be made outright, without hedging, backwards-compatibility shims, or speculative abstraction for
 requirements that do not yet exist (YAGNI). Every non-trivial architecture decision MUST be
@@ -52,6 +56,7 @@ deliberate practice discipline — indecision and hedging are themselves a bad h
 practicing.
 
 ### V. Simplicity: No Modeling Board, No Board-Driven Tooling
+
 This is a small, solo, well-understood domain. An Event Modeling board and board-driven code
 generation (e.g. eventmodelers.ai) are explicitly out of scope; `docs/BRIEF.md` and
 `docs/ADRs.md` are the design record instead, and the Spec Kit chain

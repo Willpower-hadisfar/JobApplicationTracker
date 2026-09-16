@@ -6,7 +6,7 @@ research task format); the rest follow from them.
 ## Decision: Vanilla JavaScript, no framework, no browser build step
 
 - **Decision**: Plain JavaScript ES modules, loaded directly by the browser via `<script
-  type="module">` — no React/Vue/etc., no TypeScript-for-the-browser (which would require a
+type="module">` — no React/Vue/etc., no TypeScript-for-the-browser (which would require a
   transpile step), no bundler.
 - **Rationale**: User-confirmed. This project's purpose is Emmett/event-sourcing practice
   (`docs/BRIEF.md`); the frontend exists to make the tracker usable, not to be a second practice
@@ -61,7 +61,7 @@ research task format); the rest follow from them.
   (`project.ts` aggregating a single stream to its full `Application` state, `route.ts` exposing
   it), returning the application's full state — open or closed.
 - **Rationale**: Discovered during Phase 1 design (see `data-model.md`): feature 003's only query
-  endpoint is the active-pipeline *list*, which excludes closed applications by design (feature
+  endpoint is the active-pipeline _list_, which excludes closed applications by design (feature
   001 FR-014) — it cannot serve this feature's detail view, and spec.md explicitly requires the
   detail view to keep showing an application after it closes (Edge Cases: "closed applications
   shown view-only"). This is a genuine backend gap surfaced by frontend requirements, not a

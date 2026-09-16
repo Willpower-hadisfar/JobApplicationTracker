@@ -57,22 +57,22 @@ anything durable to migrate). Single database/schema, no multi-tenancy (spec.md 
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Check | Result |
-|---|---|---|
-| I. Event Sourcing via Emmett (NON-NEGOTIABLE) | Same decider pattern, same `EventStore` interface — only the concrete store implementation changes. This is ADR 1's deferred second half, now fulfilled | PASS |
-| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | New/changed behavior (schema migration, connection-failure handling, the applications index table) gets tests written first, against the shared testcontainer. Existing `deciderSpecification` tests are untouched and need no new tests — they were already store-agnostic | PASS |
-| III. Granular Vertical Slice Architecture | No slice restructuring. The one new shared piece (`src/store/application-index.ts`) is storage infra, same category as `src/store/event-store.ts` itself — not business logic. `application-registry.ts` is removed, not left behind as dead code | PASS |
-| IV. Decisive Greenfield Architecture | Package, migration strategy, index-table approach (a small hand-rolled table over Emmett's fuller projection machinery), and test-container strategy are all decided outright below, not left open | PASS |
-| V. Simplicity: No Board, No Board-Driven Tooling | No board used; same Spec Kit chain | PASS |
+| Principle                                        | Check                                                                                                                                                                                                                                                                       | Result |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| I. Event Sourcing via Emmett (NON-NEGOTIABLE)    | Same decider pattern, same `EventStore` interface — only the concrete store implementation changes. This is ADR 1's deferred second half, now fulfilled                                                                                                                     | PASS   |
+| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | New/changed behavior (schema migration, connection-failure handling, the applications index table) gets tests written first, against the shared testcontainer. Existing `deciderSpecification` tests are untouched and need no new tests — they were already store-agnostic | PASS   |
+| III. Granular Vertical Slice Architecture        | No slice restructuring. The one new shared piece (`src/store/application-index.ts`) is storage infra, same category as `src/store/event-store.ts` itself — not business logic. `application-registry.ts` is removed, not left behind as dead code                           | PASS   |
+| IV. Decisive Greenfield Architecture             | Package, migration strategy, index-table approach (a small hand-rolled table over Emmett's fuller projection machinery), and test-container strategy are all decided outright below, not left open                                                                          | PASS   |
+| V. Simplicity: No Board, No Board-Driven Tooling | No board used; same Spec Kit chain                                                                                                                                                                                                                                          | PASS   |
 
 No violations — Complexity Tracking table is not needed.
 
-*Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
+_Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
 five principles — the applications index table stays a thin storage-infra addition, no decider or
 route business logic changed, and the testing strategy (shared testcontainer + truncation) keeps
-every test's guard-behavior assertions exactly as strict as before.*
+every test's guard-behavior assertions exactly as strict as before._
 
 ## Project Structure
 
@@ -125,4 +125,4 @@ vitest.config.ts              # MODIFIED: registers globalSetup
 
 ## Complexity Tracking
 
-*No violations — table omitted.*
+_No violations — table omitted._

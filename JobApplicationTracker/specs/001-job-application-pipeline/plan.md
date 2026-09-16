@@ -44,21 +44,21 @@ scale engineering needed.
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Check | Result |
-|---|---|---|
-| I. Event Sourcing via Emmett (NON-NEGOTIABLE) | State modeled as commands → events → state via Emmett deciders; in-memory store for now, Postgres deferred; reads go through the active-pipeline projection, not direct state queries | PASS |
-| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | Every command slice ships a `deciderSpecification` test covering its guards before being done; enforced per-slice at `/speckit-tasks` | PASS |
-| III. Granular Vertical Slice Architecture | Project Structure below is one folder per command plus one for the read model and one for the reactor; no shared `commands.ts`/`handlers.ts`/`routes.ts` | PASS |
-| IV. Decisive Greenfield Architecture | No legacy code, no compatibility shims; technology choices below are made outright | PASS |
-| V. Simplicity: No Board, No Board-Driven Tooling | No Event Modeling board used; this plan is produced via the Spec Kit chain from `docs/BRIEF.md`/`docs/ADRs.md` | PASS |
+| Principle                                        | Check                                                                                                                                                                                 | Result |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| I. Event Sourcing via Emmett (NON-NEGOTIABLE)    | State modeled as commands → events → state via Emmett deciders; in-memory store for now, Postgres deferred; reads go through the active-pipeline projection, not direct state queries | PASS   |
+| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | Every command slice ships a `deciderSpecification` test covering its guards before being done; enforced per-slice at `/speckit-tasks`                                                 | PASS   |
+| III. Granular Vertical Slice Architecture        | Project Structure below is one folder per command plus one for the read model and one for the reactor; no shared `commands.ts`/`handlers.ts`/`routes.ts`                              | PASS   |
+| IV. Decisive Greenfield Architecture             | No legacy code, no compatibility shims; technology choices below are made outright                                                                                                    | PASS   |
+| V. Simplicity: No Board, No Board-Driven Tooling | No Event Modeling board used; this plan is produced via the Spec Kit chain from `docs/BRIEF.md`/`docs/ADRs.md`                                                                        | PASS   |
 
 No violations — Complexity Tracking table is not needed.
 
-*Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all five
+_Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all five
 principles — the design introduced no shared handler files, no premature Postgres/HTTP dependency,
-and every command/read-model/reactor slice remains independently testable via `deciderSpecification`.*
+and every command/read-model/reactor slice remains independently testable via `deciderSpecification`._
 
 ## Project Structure
 
@@ -130,4 +130,4 @@ src/
 
 ## Complexity Tracking
 
-*No violations — table omitted.*
+_No violations — table omitted._

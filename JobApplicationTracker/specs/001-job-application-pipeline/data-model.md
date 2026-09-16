@@ -1,7 +1,7 @@
 # Phase 1 Data Model: Job Application Pipeline Tracking
 
 Derived from spec.md's Key Entities and `docs/BRIEF.md`'s model. This is event-sourced: the
-`Application` row below is the *folded state* (`evolve` output), not a stored table row — it exists
+`Application` row below is the _folded state_ (`evolve` output), not a stored table row — it exists
 only in memory, reconstructed from the event stream for decision-making and projected into the
 active-pipeline read model for querying.
 
@@ -9,15 +9,15 @@ active-pipeline read model for querying.
 
 One instance per submitted application, identified by an application ID (stream ID).
 
-| Field | Type | Notes |
-|---|---|---|
-| `applicationId` | string (stream ID) | Assigned on submission |
-| `company` | string | From FR-001 |
-| `role` | string | From FR-001 |
-| `status` | `Open \| Accepted \| Declined \| Withdrawn \| Ghosted` | `Accepted`/`Declined`/`Withdrawn`/`Ghosted` are closed/terminal (FR-009) |
-| `rounds` | `InterviewRound[]` | Ordered by round number; append-only via `evolve` |
-| `offer` | `Offer \| undefined` | Present once `OfferReceived`; undefined before then |
-| `lastActivityAt` | timestamp | Set by `evolve` on every event; drives FR-011 (silence-clock reset) and the read model's idle time |
+| Field            | Type                                                   | Notes                                                                                              |
+| ---------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `applicationId`  | string (stream ID)                                     | Assigned on submission                                                                             |
+| `company`        | string                                                 | From FR-001                                                                                        |
+| `role`           | string                                                 | From FR-001                                                                                        |
+| `status`         | `Open \| Accepted \| Declined \| Withdrawn \| Ghosted` | `Accepted`/`Declined`/`Withdrawn`/`Ghosted` are closed/terminal (FR-009)                           |
+| `rounds`         | `InterviewRound[]`                                     | Ordered by round number; append-only via `evolve`                                                  |
+| `offer`          | `Offer \| undefined`                                   | Present once `OfferReceived`; undefined before then                                                |
+| `lastActivityAt` | timestamp                                              | Set by `evolve` on every event; drives FR-011 (silence-clock reset) and the read model's idle time |
 
 ### State transitions (status)
 
@@ -34,18 +34,18 @@ before any command-specific logic runs.
 
 ### Invariants enforced by `decide` (from spec Functional Requirements)
 
-- **FR-004**: `ScheduleInterview` for round *N* requires `rounds` to contain exactly *N-1* rounds,
-  and round *N-1* (if *N* > 1) must have a recorded (non-pending) outcome.
+- **FR-004**: `ScheduleInterview` for round _N_ requires `rounds` to contain exactly _N-1_ rounds,
+  and round _N-1_ (if _N_ > 1) must have a recorded (non-pending) outcome.
 - **FR-005**: `ReceiveOffer` requires `rounds` non-empty and the last round's `outcome === 'Passed'`.
 - **FR-009**: Every command requires `status === 'Open'`.
 - **FR-011**: Any event applied via `evolve` sets `lastActivityAt` to that event's timestamp.
 
 ## Entity: InterviewRound (nested within Application state)
 
-| Field | Type | Notes |
-|---|---|---|
-| `round` | number | 1-indexed, sequential |
-| `date` | date | From `InterviewScheduled` |
+| Field     | Type                            | Notes                                         |
+| --------- | ------------------------------- | --------------------------------------------- |
+| `round`   | number                          | 1-indexed, sequential                         |
+| `date`    | date                            | From `InterviewScheduled`                     |
 | `outcome` | `Pending \| Passed \| Rejected` | `Pending` until `InterviewCompleted` recorded |
 
 A `Rejected` outcome does not itself close the application (per spec Edge Cases, a rejected round
@@ -56,10 +56,10 @@ further progress once the latest round is `Rejected`, since neither guard above 
 
 ## Entity: Offer (nested within Application state)
 
-| Field | Type | Notes |
-|---|---|---|
-| `amount` | number | From `OfferReceived` |
-| `deadline` | date | From `OfferReceived` |
+| Field      | Type                              | Notes                               |
+| ---------- | --------------------------------- | ----------------------------------- |
+| `amount`   | number                            | From `OfferReceived`                |
+| `deadline` | date                              | From `OfferReceived`                |
 | `decision` | `Pending \| Accepted \| Declined` | Set by `AcceptOffer`/`DeclineOffer` |
 
 ## Read Model: ActivePipelineEntry (active-pipeline projection)
@@ -67,13 +67,13 @@ further progress once the latest round is `Rejected`, since neither guard above 
 One row per **open** application (FR-014 excludes closed applications), projected from the same
 event stream(s).
 
-| Field | Type | Notes |
-|---|---|---|
-| `applicationId` | string | |
-| `company` | string | |
-| `role` | string | |
-| `currentStage` | string | Human-readable derived stage, e.g. "Awaiting round 2 outcome", "Offer pending decision" |
-| `daysSinceLastActivity` | number | `now - lastActivityAt`, recomputed at query time |
+| Field                   | Type   | Notes                                                                                   |
+| ----------------------- | ------ | --------------------------------------------------------------------------------------- |
+| `applicationId`         | string |                                                                                         |
+| `company`               | string |                                                                                         |
+| `role`                  | string |                                                                                         |
+| `currentStage`          | string | Human-readable derived stage, e.g. "Awaiting round 2 outcome", "Offer pending decision" |
+| `daysSinceLastActivity` | number | `now - lastActivityAt`, recomputed at query time                                        |
 
 Sort order: `daysSinceLastActivity` descending (FR-013, most-idle-first).
 

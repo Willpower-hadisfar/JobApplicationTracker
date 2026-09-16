@@ -8,7 +8,7 @@
 
 **Input**: User description: "A web frontend for the job application tracker, so the job seeker can use it without curl or a raw HTTP client — submit and progress applications, see the active overview, and trigger the ghosting check, all through a browser." (builds on feature 003's HTTP API; the last planned increment before the tracker is usable end-to-end as a real personal tool)
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Manage an application's lifecycle through the browser (Priority: P1)
 
@@ -103,7 +103,7 @@ feature 003's endpoint exists.
   fields)? → The detail view shows their absence clearly (e.g. "not disclosed") rather than
   showing blank or misleading values.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -136,7 +136,7 @@ feature 003's endpoint exists.
 No new entities — this feature is a UI over feature 001/002/003's existing `Application`,
 `ActivePipelineEntry`, and the HTTP API's existing endpoints; it does not change what is tracked.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

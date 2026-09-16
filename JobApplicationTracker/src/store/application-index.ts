@@ -1,5 +1,5 @@
-import pg from "pg";
-import type { PostgresEventStore } from "@event-driven-io/emmett-postgresql";
+import pg from 'pg';
+import type { PostgresEventStore } from '@event-driven-io/emmett-postgresql';
 
 export type ApplicationIndex = {
   register: (applicationId: string) => Promise<void>;
@@ -12,7 +12,7 @@ const ensureTable = async (pool: pg.Pool): Promise<void> => {
     `CREATE TABLE IF NOT EXISTS applications (
        application_id text PRIMARY KEY,
        submitted_at timestamptz NOT NULL DEFAULT now()
-     )`,
+     )`
   );
 };
 
@@ -25,27 +25,22 @@ const ensureTable = async (pool: pg.Pool): Promise<void> => {
 export const createApplicationIndex = (_store: PostgresEventStore): ApplicationIndex => {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error(
-      "DATABASE_URL is not set — cannot connect to the applications index table",
-    );
+    throw new Error('DATABASE_URL is not set — cannot connect to the applications index table');
   }
   const pool = new pg.Pool({ connectionString });
   const ready = ensureTable(pool);
 
   return {
-    register: async (applicationId) => {
+    register: async applicationId => {
       await ready;
-      await pool.query(
-        "INSERT INTO applications (application_id) VALUES ($1) ON CONFLICT DO NOTHING",
-        [applicationId],
-      );
+      await pool.query('INSERT INTO applications (application_id) VALUES ($1) ON CONFLICT DO NOTHING', [applicationId]);
     },
     list: async () => {
       await ready;
       const result = await pool.query<{ application_id: string }>(
-        "SELECT application_id FROM applications ORDER BY submitted_at",
+        'SELECT application_id FROM applications ORDER BY submitted_at'
       );
-      return result.rows.map((row) => row.application_id);
+      return result.rows.map(row => row.application_id);
     },
     close: () => pool.end(),
   };

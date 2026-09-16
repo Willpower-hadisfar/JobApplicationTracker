@@ -8,7 +8,7 @@
 
 **Input**: User description: "When a user submits a job application, capture the job posting details that matter for comparing opportunities: location, salary, whether the role is contract or permanent, bonus, and benefits included — not just company and role." (extends feature 001's `SubmitApplication`)
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Record full job posting details at submission (Priority: P1)
 
@@ -50,7 +50,7 @@ application's record reflects them exactly — independently testable the same w
   internship, temp-to-perm)? → Out of scope for this feature; see Assumptions — only the two
   values already implied by the request are supported.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -77,7 +77,7 @@ application's record reflects them exactly — independently testable the same w
   ("Permanent" or "Contract"), `bonus` (optional amount + currency), and `benefits` (a list of
   text descriptions, possibly empty).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -15,7 +15,8 @@ Deliberately skipped. Event Modeling earns its cost when there's real ambiguity 
 **Events**: `ApplicationSubmitted { company, role }`, `InterviewScheduled { round, date }`, `InterviewCompleted { round, outcome: Passed|Rejected }`, `OfferReceived { amount, deadline }`, `OfferAccepted`, `OfferDeclined`, `ApplicationWithdrawn`, `ApplicationGhosted`
 
 **Guards** (the actual practice value — several branches, not one toggle):
-- Can't schedule interview round *n+1* before round *n* has a recorded outcome.
+
+- Can't schedule interview round _n+1_ before round _n_ has a recorded outcome.
 - Can't `ReceiveOffer` unless the most recent interview outcome was `Passed`.
 - Once `Accepted` / `Declined` / `Withdrawn` / `Ghosted`, the aggregate is closed — every other command rejects.
 
@@ -32,7 +33,7 @@ Deliberately skipped. Event Modeling earns its cost when there's real ambiguity 
 
 ## Architecture: granular vertical slices
 
-Evaluated [eventmodelers.ai](https://app.eventmodelers.ai) (`@eventmodelers/cli`) as a way to get vertical-slice code generation — rejected: its codegen reads from a modeled board (`init --stack <name>` / `run` implements slices *marked ready on the board*), and we're deliberately skipping the board (see above). No documented path to feed it a model without the visual canvas.
+Evaluated [eventmodelers.ai](https://app.eventmodelers.ai) (`@eventmodelers/cli`) as a way to get vertical-slice code generation — rejected: its codegen reads from a modeled board (`init --stack <name>` / `run` implements slices _marked ready on the board_), and we're deliberately skipping the board (see above). No documented path to feed it a model without the visual canvas.
 
 Instead, vertical slices are hand-structured directly from the model above, one slice per command (not per aggregate or per layer):
 
@@ -63,4 +64,4 @@ Not yet done: deploying the tracker anywhere (e.g. GCP) — deliberately the nex
 
 ## Related
 
-[[about Spec-Driven Development (Spec Kit)|Spec Kit]] — the phased artifact chain this uses instead of an Event Modeling board; [[Expense Tracker]] and [[Underwriting]] — the sibling event-sourcing projects that *do* use Event Modeling, and the Postgres-event-store comparison this extends; [[about Cratis|Cratis]] — the .NET event store already compared against Marten.
+[[about Spec-Driven Development (Spec Kit)|Spec Kit]] — the phased artifact chain this uses instead of an Event Modeling board; [[Expense Tracker]] and [[Underwriting]] — the sibling event-sourcing projects that _do_ use Event Modeling, and the Postgres-event-store comparison this extends; [[about Cratis|Cratis]] — the .NET event store already compared against Marten.
