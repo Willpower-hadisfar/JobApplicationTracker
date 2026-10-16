@@ -80,10 +80,10 @@ Every feature was built through a full spec → plan → tasks → implementatio
 [`specs/`](specs/) — each feature's `spec.md` describes what it does and why, `plan.md`/
 `research.md` the technical decisions, and `contracts/` the interfaces.
 
-| Feature | What |
-|---|---|
-| [001](specs/001-job-application-pipeline/) | Core event-sourced pipeline: submit → interviews → terminal outcome, active overview, ghosting |
-| [002](specs/002-application-job-details/) | Richer job posting fields (location, salary, employment type, bonus, benefits) |
-| [003](specs/003-application-http-api/) | HTTP API (Fastify) over the pipeline |
-| [004](specs/004-application-tracker-frontend/) | The frontend, plus the `GET /applications/:id` endpoint it needed |
-| [005](specs/005-postgres-event-store/) | Postgres event store swap (durability across restarts) |
+| Feature                                        | What                                                                                           |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [001](specs/001-job-application-pipeline/)     | Core event-sourced pipeline: submit → interviews → terminal outcome, active overview, ghosting |
+| [002](specs/002-application-job-details/)      | Richer job posting fields (location, salary, employment type, bonus, benefits)                 |
+| [003](specs/003-application-http-api/)         | HTTP API (Fastify) over the pipeline                                                           |
+| [004](specs/004-application-tracker-frontend/) | The frontend, plus the `GET /applications/:id` endpoint it needed                              |
+| [005](specs/005-postgres-event-store/)         | Postgres event store swap (durability across restarts)                                         |

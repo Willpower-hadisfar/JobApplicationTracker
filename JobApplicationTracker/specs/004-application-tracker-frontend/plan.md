@@ -50,22 +50,22 @@ Assumptions). No real-time sync between tabs (spec.md Assumptions).
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Check | Result |
-|---|---|---|
-| I. Event Sourcing via Emmett (NON-NEGOTIABLE) | The frontend itself has no direct event-store access — only calls the HTTP API. The one new backend piece (`GET /applications/:applicationId`) reads via `aggregateStream`/`evolve` like every other read model, no direct state mutation | PASS |
-| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | Applies to this feature's testable logic: pure functions (`format.js`, `api-client.js`'s payload builders) get Vitest tests written first, and the new backend read-model slice gets its own test (route-level `app.inject()`, matching feature 003's pattern) written first. DOM wiring/event handlers are thin glue verified manually (documented exception, not a silent gap) | PASS |
-| III. Granular Vertical Slice Architecture | Adapted for a UI layer: one view module per screen/concern (`views/overview.js`, `views/new-application.js`, `views/application-detail.js`), no monolithic `app.js` catch-all handling every view. `api-client.js` is shared infra (the HTTP boundary), same category as `src/store/event-store.ts` — not business logic. The new backend endpoint is its own slice (`src/read-models/application-detail/`), not folded into `active-pipeline` | PASS |
-| IV. Decisive Greenfield Architecture | Stack decided outright (user-confirmed): vanilla JS, hash routing, static serving via the existing server — no framework evaluation left open-ended | PASS |
-| V. Simplicity: No Board, No Board-Driven Tooling | No board used; same Spec Kit chain | PASS |
+| Principle                                        | Check                                                                                                                                                                                                                                                                                                                                                                                                                                          | Result |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| I. Event Sourcing via Emmett (NON-NEGOTIABLE)    | The frontend itself has no direct event-store access — only calls the HTTP API. The one new backend piece (`GET /applications/:applicationId`) reads via `aggregateStream`/`evolve` like every other read model, no direct state mutation                                                                                                                                                                                                      | PASS   |
+| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | Applies to this feature's testable logic: pure functions (`format.js`, `api-client.js`'s payload builders) get Vitest tests written first, and the new backend read-model slice gets its own test (route-level `app.inject()`, matching feature 003's pattern) written first. DOM wiring/event handlers are thin glue verified manually (documented exception, not a silent gap)                                                               | PASS   |
+| III. Granular Vertical Slice Architecture        | Adapted for a UI layer: one view module per screen/concern (`views/overview.js`, `views/new-application.js`, `views/application-detail.js`), no monolithic `app.js` catch-all handling every view. `api-client.js` is shared infra (the HTTP boundary), same category as `src/store/event-store.ts` — not business logic. The new backend endpoint is its own slice (`src/read-models/application-detail/`), not folded into `active-pipeline` | PASS   |
+| IV. Decisive Greenfield Architecture             | Stack decided outright (user-confirmed): vanilla JS, hash routing, static serving via the existing server — no framework evaluation left open-ended                                                                                                                                                                                                                                                                                            | PASS   |
+| V. Simplicity: No Board, No Board-Driven Tooling | No board used; same Spec Kit chain                                                                                                                                                                                                                                                                                                                                                                                                             | PASS   |
 
 No violations — Complexity Tracking table is not needed.
 
-*Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
+_Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
 five principles — the one backend addition (`GET /applications/:applicationId`) follows the exact
 same read-model/route pattern as feature 003's existing endpoints, and the frontend stays a thin,
-framework-free client over the HTTP boundary.*
+framework-free client over the HTTP boundary._
 
 ## Project Structure
 
@@ -118,4 +118,4 @@ src/read-models/
 
 ## Complexity Tracking
 
-*No violations — table omitted.*
+_No violations — table omitted._

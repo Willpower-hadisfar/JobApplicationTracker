@@ -1,39 +1,36 @@
-import { DeciderCommandHandler } from "@event-driven-io/emmett";
-import type { FastifyInstance } from "fastify";
-import { evolve, initialState } from "../../domain/state.js";
-import { requireApplicationExists } from "../../http/require-application.js";
-import {
-  emptySuccessResponseSchema,
-  errorResponseSchema,
-} from "../../http/openapi-schemas.js";
-import { decide } from "./decide.js";
+import { DeciderCommandHandler } from '@event-driven-io/emmett';
+import type { FastifyInstance } from 'fastify';
+import { evolve, initialState } from '../../domain/state.js';
+import { requireApplicationExists } from '../../http/require-application.js';
+import { emptySuccessResponseSchema, errorResponseSchema } from '../../http/openapi-schemas.js';
+import { decide } from './decide.js';
 
 const handle = DeciderCommandHandler({ decide, evolve, initialState });
 
 const bodySchema = {
-  type: "object",
-  required: ["round", "outcome"],
+  type: 'object',
+  required: ['round', 'outcome'],
   properties: {
-    round: { type: "number" },
-    outcome: { type: "string", enum: ["Passed", "Rejected"] },
+    round: { type: 'number' },
+    outcome: { type: 'string', enum: ['Passed', 'Rejected'] },
   },
 } as const;
 
 const paramsSchema = {
-  type: "object",
-  required: ["applicationId"],
-  properties: { applicationId: { type: "string" } },
+  type: 'object',
+  required: ['applicationId'],
+  properties: { applicationId: { type: 'string' } },
 } as const;
 
-type Body = { round: number; outcome: "Passed" | "Rejected" };
+type Body = { round: number; outcome: 'Passed' | 'Rejected' };
 type Params = { applicationId: string };
 
 export const registerRecordInterviewOutcomeRoute = (app: FastifyInstance): void => {
   app.post<{ Body: Body; Params: Params }>(
-    "/applications/:applicationId/interviews/outcome",
+    '/applications/:applicationId/interviews/outcome',
     {
       schema: {
-        tags: ["Applications"],
+        tags: ['Applications'],
         summary: "Record an interview round's outcome",
         body: bodySchema,
         params: paramsSchema,
@@ -49,11 +46,11 @@ export const registerRecordInterviewOutcomeRoute = (app: FastifyInstance): void 
       const { applicationId } = request.params;
       await requireApplicationExists(app.eventStore, applicationId);
       await handle(app.eventStore, applicationId, {
-        type: "RecordInterviewOutcome",
+        type: 'RecordInterviewOutcome',
         data: request.body,
         metadata: { now: new Date() },
       });
       reply.code(200).send({});
-    },
+    }
   );
 };

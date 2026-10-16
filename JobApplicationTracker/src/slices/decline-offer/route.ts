@@ -1,30 +1,27 @@
-import { DeciderCommandHandler } from "@event-driven-io/emmett";
-import type { FastifyInstance } from "fastify";
-import { evolve, initialState } from "../../domain/state.js";
-import { requireApplicationExists } from "../../http/require-application.js";
-import {
-  emptySuccessResponseSchema,
-  errorResponseSchema,
-} from "../../http/openapi-schemas.js";
-import { decide } from "./decide.js";
+import { DeciderCommandHandler } from '@event-driven-io/emmett';
+import type { FastifyInstance } from 'fastify';
+import { evolve, initialState } from '../../domain/state.js';
+import { requireApplicationExists } from '../../http/require-application.js';
+import { emptySuccessResponseSchema, errorResponseSchema } from '../../http/openapi-schemas.js';
+import { decide } from './decide.js';
 
 const handle = DeciderCommandHandler({ decide, evolve, initialState });
 
 const paramsSchema = {
-  type: "object",
-  required: ["applicationId"],
-  properties: { applicationId: { type: "string" } },
+  type: 'object',
+  required: ['applicationId'],
+  properties: { applicationId: { type: 'string' } },
 } as const;
 
 type Params = { applicationId: string };
 
 export const registerDeclineOfferRoute = (app: FastifyInstance): void => {
   app.post<{ Params: Params }>(
-    "/applications/:applicationId/offer/decline",
+    '/applications/:applicationId/offer/decline',
     {
       schema: {
-        tags: ["Applications"],
-        summary: "Decline a pending offer",
+        tags: ['Applications'],
+        summary: 'Decline a pending offer',
         params: paramsSchema,
         response: {
           200: emptySuccessResponseSchema,
@@ -37,11 +34,11 @@ export const registerDeclineOfferRoute = (app: FastifyInstance): void => {
       const { applicationId } = request.params;
       await requireApplicationExists(app.eventStore, applicationId);
       await handle(app.eventStore, applicationId, {
-        type: "DeclineOffer",
+        type: 'DeclineOffer',
         data: {},
         metadata: { now: new Date() },
       });
       reply.code(200).send({});
-    },
+    }
   );
 };

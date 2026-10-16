@@ -1,6 +1,6 @@
-import type { FastifyInstance } from "fastify";
-import type { ApplicationEvent } from "../../domain/events.js";
-import { ghostSilentApplications } from "./reactor.js";
+import type { FastifyInstance } from 'fastify';
+import type { ApplicationEvent } from '../../domain/events.js';
+import { ghostSilentApplications } from './reactor.js';
 
 type Body = { now?: string } | undefined;
 
@@ -13,15 +13,15 @@ type Body = { now?: string } | undefined;
  */
 export const registerGhostingCheckRoute = (app: FastifyInstance): void => {
   app.post<{ Body: Body }>(
-    "/ghosting/check",
+    '/ghosting/check',
     {
       schema: {
-        tags: ["Overview"],
-        summary: "Trigger the ghosting check for silent applications",
+        tags: ['Overview'],
+        summary: 'Trigger the ghosting check for silent applications',
         response: {
           200: {
-            type: "object",
-            properties: { ghosted: { type: "array", items: { type: "string" } } },
+            type: 'object',
+            properties: { ghosted: { type: 'array', items: { type: 'string' } } },
           },
         },
       },
@@ -31,7 +31,7 @@ export const registerGhostingCheckRoute = (app: FastifyInstance): void => {
       const streams: Record<string, ApplicationEvent[]> = {};
       for (const applicationId of await app.applicationIndex.list()) {
         const { events } = await app.eventStore.readStream<ApplicationEvent>(applicationId);
-        streams[applicationId] = events.map((event) => ({
+        streams[applicationId] = events.map(event => ({
           type: event.type,
           data: event.data,
           metadata: event.metadata,
@@ -43,7 +43,7 @@ export const registerGhostingCheckRoute = (app: FastifyInstance): void => {
         await app.eventStore.appendToStream(applicationId, [event]);
       }
 
-      reply.code(200).send({ ghosted: toGhost.map((g) => g.applicationId) });
-    },
+      reply.code(200).send({ ghosted: toGhost.map(g => g.applicationId) });
+    }
   );
 };

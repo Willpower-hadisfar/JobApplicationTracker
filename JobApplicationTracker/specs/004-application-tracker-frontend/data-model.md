@@ -25,7 +25,7 @@ message inline without navigating away or clearing the form (spec.md FR-004).
 ## View: Application Detail (`#/applications/:applicationId`)
 
 Feature 003 has no endpoint that returns a single application's full state (only the
-active-pipeline *list*, which excludes closed applications entirely) — a gap surfaced by this
+active-pipeline _list_, which excludes closed applications entirely) — a gap surfaced by this
 feature's FR-002 ("view a single application's full current state") and the edge case requiring
 closed applications to still be viewable, just action-less. This plan adds one new backend
 endpoint to close that gap: `GET /applications/:applicationId`, returning the full `Application`
@@ -34,14 +34,14 @@ state (open or closed) as a new read-model slice — see `contracts/application-
 Shows every field from that response plus the available next actions, each calling its
 corresponding feature 003 command endpoint:
 
-| Displayed state | Available actions |
-|---|---|
-| Open, no interview scheduled yet | Schedule interview |
-| Open, round *N* scheduled, outcome pending | Record outcome (round *N*) |
+| Displayed state                             | Available actions                     |
+| ------------------------------------------- | ------------------------------------- |
+| Open, no interview scheduled yet            | Schedule interview                    |
+| Open, round _N_ scheduled, outcome pending  | Record outcome (round _N_)            |
 | Open, latest round outcome Passed, no offer | Schedule next round, or receive offer |
-| Open, offer pending decision | Accept offer, decline offer |
-| Any open state | Withdraw |
-| Closed (any reason) | No actions — view only |
+| Open, offer pending decision                | Accept offer, decline offer           |
+| Any open state                              | Withdraw                              |
+| Closed (any reason)                         | No actions — view only                |
 
 On any action's 409/404, show the error message from the response body inline (spec.md FR-004);
 on success, re-fetch and re-render the same view.

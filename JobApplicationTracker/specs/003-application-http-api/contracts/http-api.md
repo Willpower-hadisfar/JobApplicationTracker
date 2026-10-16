@@ -6,17 +6,17 @@ concretization). Request/response bodies are detailed in `data-model.md`.
 
 ## Endpoints
 
-| Method | Path | Command/Query | Slice |
-|---|---|---|---|
-| `POST` | `/applications` | `SubmitApplication` | `src/slices/submit-application/route.ts` |
-| `POST` | `/applications/:applicationId/interviews` | `ScheduleInterview` | `src/slices/schedule-interview/route.ts` |
-| `POST` | `/applications/:applicationId/interviews/outcome` | `RecordInterviewOutcome` | `src/slices/record-interview-outcome/route.ts` |
-| `POST` | `/applications/:applicationId/offer` | `ReceiveOffer` | `src/slices/receive-offer/route.ts` |
-| `POST` | `/applications/:applicationId/offer/accept` | `AcceptOffer` | `src/slices/accept-offer/route.ts` |
-| `POST` | `/applications/:applicationId/offer/decline` | `DeclineOffer` | `src/slices/decline-offer/route.ts` |
-| `POST` | `/applications/:applicationId/withdraw` | `WithdrawApplication` | `src/slices/withdraw-application/route.ts` |
-| `GET` | `/applications/active` | `getActivePipeline()` | `src/read-models/active-pipeline/route.ts` |
-| `POST` | `/ghosting/check` | `ghostSilentApplications()` | `src/reactors/ghosting/route.ts` |
+| Method | Path                                              | Command/Query               | Slice                                          |
+| ------ | ------------------------------------------------- | --------------------------- | ---------------------------------------------- |
+| `POST` | `/applications`                                   | `SubmitApplication`         | `src/slices/submit-application/route.ts`       |
+| `POST` | `/applications/:applicationId/interviews`         | `ScheduleInterview`         | `src/slices/schedule-interview/route.ts`       |
+| `POST` | `/applications/:applicationId/interviews/outcome` | `RecordInterviewOutcome`    | `src/slices/record-interview-outcome/route.ts` |
+| `POST` | `/applications/:applicationId/offer`              | `ReceiveOffer`              | `src/slices/receive-offer/route.ts`            |
+| `POST` | `/applications/:applicationId/offer/accept`       | `AcceptOffer`               | `src/slices/accept-offer/route.ts`             |
+| `POST` | `/applications/:applicationId/offer/decline`      | `DeclineOffer`              | `src/slices/decline-offer/route.ts`            |
+| `POST` | `/applications/:applicationId/withdraw`           | `WithdrawApplication`       | `src/slices/withdraw-application/route.ts`     |
+| `GET`  | `/applications/active`                            | `getActivePipeline()`       | `src/read-models/active-pipeline/route.ts`     |
+| `POST` | `/ghosting/check`                                 | `ghostSilentApplications()` | `src/reactors/ghosting/route.ts`               |
 
 ## Per-endpoint preconditions and rejections
 

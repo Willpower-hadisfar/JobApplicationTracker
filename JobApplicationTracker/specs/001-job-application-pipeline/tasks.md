@@ -27,11 +27,11 @@ Single project, per plan.md's Project Structure: `src/domain/`, `src/slices/<com
 
 **Purpose**: Project initialization
 
-- [X] T001 Initialize the Node/TypeScript project: `package.json`, `tsconfig.json`, and dependencies
+- [x] T001 Initialize the Node/TypeScript project: `package.json`, `tsconfig.json`, and dependencies
       `@event-driven-io/emmett` and `vitest` (dev), per plan.md's Technical Context, at repo root
       of `JobApplicationTracker/`
-- [X] T002 [P] Configure Vitest (`vitest.config.ts`) to discover `src/**/*.spec.ts`
-- [X] T003 [P] Configure TypeScript strictness (`strict: true` in `tsconfig.json`) — no runtime
+- [x] T002 [P] Configure Vitest (`vitest.config.ts`) to discover `src/**/*.spec.ts`
+- [x] T003 [P] Configure TypeScript strictness (`strict: true` in `tsconfig.json`) — no runtime
       lint/format tooling beyond this; keep Setup minimal per constitution Principle IV (YAGNI)
 
 ---
@@ -44,15 +44,15 @@ requires (not business/handler logic), so it does not violate Principle III.
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [X] T004 [P] Define the `Event` type union (`ApplicationSubmitted`, `InterviewScheduled`,
+- [x] T004 [P] Define the `Event` type union (`ApplicationSubmitted`, `InterviewScheduled`,
       `InterviewCompleted`, `OfferReceived`, `OfferAccepted`, `OfferDeclined`,
       `ApplicationWithdrawn`, `ApplicationGhosted`) in `src/domain/events.ts`, per data-model.md
-- [X] T005 [P] Define the `Command` type union (types only, no handler logic) in
+- [x] T005 [P] Define the `Command` type union (types only, no handler logic) in
       `src/domain/commands.ts`, per contracts/commands.md's input shapes
-- [X] T006 Define the `Application` state shape and its `evolve(state, event)` fold in
+- [x] T006 Define the `Application` state shape and its `evolve(state, event)` fold in
       `src/domain/state.ts` (depends on T004) — implements data-model.md's state-transition table
       and sets `lastActivityAt` on every event (FR-011)
-- [X] T007 [P] Wire Emmett's `getInMemoryEventStore` in `src/store/event-store.ts`, per
+- [x] T007 [P] Wire Emmett's `getInMemoryEventStore` in `src/store/event-store.ts`, per
       research.md's in-memory-first decision
 
 **Checkpoint**: Foundation ready — user story implementation can now begin
@@ -70,46 +70,46 @@ working record of one application's lifecycle, on its own.
 
 ### Tests for User Story 1 (write FIRST, must fail before implementation)
 
-- [X] T008 [P] [US1] `deciderSpecification` test for `SubmitApplication` in
+- [x] T008 [P] [US1] `deciderSpecification` test for `SubmitApplication` in
       `src/slices/submit-application/decide.spec.ts` — happy path only (no preconditions per
       contracts/commands.md)
-- [X] T009 [P] [US1] `deciderSpecification` test for `ScheduleInterview` in
+- [x] T009 [P] [US1] `deciderSpecification` test for `ScheduleInterview` in
       `src/slices/schedule-interview/decide.spec.ts` — covers round 1 (no prior rounds), round
-      *N+1* after round *N* has a recorded outcome, rejection when round is out of sequence
+      _N+1_ after round _N_ has a recorded outcome, rejection when round is out of sequence
       (FR-004), rejection when the prior round's outcome is still pending (FR-004), and rejection
       on a closed application (FR-009)
-- [X] T010 [P] [US1] `deciderSpecification` test for `RecordInterviewOutcome` in
+- [x] T010 [P] [US1] `deciderSpecification` test for `RecordInterviewOutcome` in
       `src/slices/record-interview-outcome/decide.spec.ts` — covers Passed and Rejected outcomes,
       rejection when no matching pending round exists, and rejection on a closed application
       (FR-009)
-- [X] T011 [P] [US1] `deciderSpecification` test for `ReceiveOffer` in
+- [x] T011 [P] [US1] `deciderSpecification` test for `ReceiveOffer` in
       `src/slices/receive-offer/decide.spec.ts` — covers success when the latest round outcome is
       Passed, rejection when no interview has occurred, rejection when the latest outcome is
       Rejected (FR-005), and rejection on a closed application (FR-009)
-- [X] T012 [P] [US1] `deciderSpecification` test for `AcceptOffer` in
+- [x] T012 [P] [US1] `deciderSpecification` test for `AcceptOffer` in
       `src/slices/accept-offer/decide.spec.ts` — covers success with a pending offer, rejection
       with no offer, and rejection on a closed application (FR-009)
-- [X] T013 [P] [US1] `deciderSpecification` test for `DeclineOffer` in
+- [x] T013 [P] [US1] `deciderSpecification` test for `DeclineOffer` in
       `src/slices/decline-offer/decide.spec.ts` — same coverage shape as T012
-- [X] T014 [P] [US1] `deciderSpecification` test for `WithdrawApplication` in
+- [x] T014 [P] [US1] `deciderSpecification` test for `WithdrawApplication` in
       `src/slices/withdraw-application/decide.spec.ts` — covers success on any open application
       and rejection on a closed application (FR-009)
 
 ### Implementation for User Story 1
 
-- [X] T015 [P] [US1] Implement `decide()` for `SubmitApplication` in
+- [x] T015 [P] [US1] Implement `decide()` for `SubmitApplication` in
       `src/slices/submit-application/decide.ts` (depends on T004-T007, T008)
-- [X] T016 [P] [US1] Implement `decide()` for `ScheduleInterview` in
+- [x] T016 [P] [US1] Implement `decide()` for `ScheduleInterview` in
       `src/slices/schedule-interview/decide.ts` (depends on T004-T007, T009)
-- [X] T017 [P] [US1] Implement `decide()` for `RecordInterviewOutcome` in
+- [x] T017 [P] [US1] Implement `decide()` for `RecordInterviewOutcome` in
       `src/slices/record-interview-outcome/decide.ts` (depends on T004-T007, T010)
-- [X] T018 [P] [US1] Implement `decide()` for `ReceiveOffer` in
+- [x] T018 [P] [US1] Implement `decide()` for `ReceiveOffer` in
       `src/slices/receive-offer/decide.ts` (depends on T004-T007, T011)
-- [X] T019 [P] [US1] Implement `decide()` for `AcceptOffer` in
+- [x] T019 [P] [US1] Implement `decide()` for `AcceptOffer` in
       `src/slices/accept-offer/decide.ts` (depends on T004-T007, T012)
-- [X] T020 [P] [US1] Implement `decide()` for `DeclineOffer` in
+- [x] T020 [P] [US1] Implement `decide()` for `DeclineOffer` in
       `src/slices/decline-offer/decide.ts` (depends on T004-T007, T013)
-- [X] T021 [P] [US1] Implement `decide()` for `WithdrawApplication` in
+- [x] T021 [P] [US1] Implement `decide()` for `WithdrawApplication` in
       `src/slices/withdraw-application/decide.ts` (depends on T004-T007, T014)
 
 **Checkpoint**: User Story 1 fully functional — quickstart.md's Story 1 walkthrough passes end to
@@ -127,14 +127,14 @@ returns only the open ones, correctly ordered (quickstart.md's User Story 2 walk
 
 ### Tests for User Story 2 (write FIRST, must fail before implementation)
 
-- [X] T022 [P] [US2] Test for `getActivePipeline()` in
+- [x] T022 [P] [US2] Test for `getActivePipeline()` in
       `src/read-models/active-pipeline/project.spec.ts` — covers most-idle-first ordering
       (FR-013), exclusion of closed applications (FR-014), and `currentStage`/
       `daysSinceLastActivity` derivation per data-model.md's `ActivePipelineEntry`
 
 ### Implementation for User Story 2
 
-- [X] T023 [US2] Implement `getActivePipeline()` in
+- [x] T023 [US2] Implement `getActivePipeline()` in
       `src/read-models/active-pipeline/project.ts` (depends on T004-T006, T022)
 
 **Checkpoint**: User Stories 1 and 2 both work independently
@@ -152,13 +152,13 @@ walkthrough); confirm an event partway through resets the clock.
 
 ### Tests for User Story 3 (write FIRST, must fail before implementation)
 
-- [X] T024 [P] [US3] Test for the ghosting reactor in `src/reactors/ghosting/reactor.spec.ts` —
+- [x] T024 [P] [US3] Test for the ghosting reactor in `src/reactors/ghosting/reactor.spec.ts` —
       covers emitting `ApplicationGhosted` after 14 days of silence (FR-010), the silence clock
       resetting on new activity (FR-011), and closed applications being unaffected
 
 ### Implementation for User Story 3
 
-- [X] T025 [US3] Implement the ghosting reactor in `src/reactors/ghosting/reactor.ts` (depends on
+- [x] T025 [US3] Implement the ghosting reactor in `src/reactors/ghosting/reactor.ts` (depends on
       T004-T007, T024)
 
 **Checkpoint**: All three user stories independently functional
@@ -167,12 +167,12 @@ walkthrough); confirm an event partway through resets the clock.
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [X] T026 Run quickstart.md's full scenario walkthrough (`npm test`) and confirm every scenario
+- [x] T026 Run quickstart.md's full scenario walkthrough (`npm test`) and confirm every scenario
       from all three user stories passes
-- [X] T027 [P] Update `docs/SESSION_HANDOFF.md`: mark the Spec Kit chain complete, note `npm test`
+- [x] T027 [P] Update `docs/SESSION_HANDOFF.md`: mark the Spec Kit chain complete, note `npm test`
       as the way to verify, and delete the file's now-stale "before running /speckit.constitution"
       section (constitution is ratified)
-- [X] T028 Verify no file matches the prohibited shared-catch-all pattern (no `commands.ts`,
+- [x] T028 Verify no file matches the prohibited shared-catch-all pattern (no `commands.ts`,
       `handlers.ts`, or `routes.ts` containing decision logic) — confirms constitution Principle
       III compliance
 

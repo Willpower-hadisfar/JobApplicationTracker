@@ -18,10 +18,10 @@ constitution Principle III.
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-- [X] T001 Add `fastify` and `@event-driven-io/emmett-fastify` to `package.json` dependencies, and
+- [x] T001 Add `fastify` and `@event-driven-io/emmett-fastify` to `package.json` dependencies, and
       `tsx` as a dev dependency (to run the server locally via `npm run start` without a separate
       build step); add a `"start": "tsx src/http/server.ts"` script
-- [X] T002 Run `npm install`
+- [x] T002 Run `npm install`
 
 ---
 
@@ -32,18 +32,18 @@ justification (same category as feature 001's `src/store/event-store.ts`).
 
 **⚠️ CRITICAL**: No route work can begin until this phase is complete
 
-- [X] T003 [P] Implement `src/http/errors.ts`: a `mapErrorToResponse` helper (or Fastify error
+- [x] T003 [P] Implement `src/http/errors.ts`: a `mapErrorToResponse` helper (or Fastify error
       handler) implementing research.md's three-tier mapping — Fastify validation failure → 400
       (usually automatic, but confirm the shape matches data-model.md's error body), a thrown
       `NotSubmitted` marker → 404, `IllegalStateError` → 409, per data-model.md's error response
       shape
-- [X] T004 Implement `src/http/app.ts`: `getApplication({ registerRoutes })` wiring — creates one
+- [x] T004 Implement `src/http/app.ts`: `getApplication({ registerRoutes })` wiring — creates one
       shared `createEventStore()` instance (feature 001's `src/store/event-store.ts`), decorates
       the Fastify instance with it so every route can reach it, and registers each slice's route
       plugin (depends on T003; route plugins themselves land in later phases and are registered
       here incrementally)
-- [X] T005 [P] Implement `src/http/server.ts`: thin `startAPI(app)` entrypoint (depends on T004)
-- [X] T006 [P] Write `src/http/app.spec.ts`: smoke test that `getApplication(...)` builds
+- [x] T005 [P] Implement `src/http/server.ts`: thin `startAPI(app)` entrypoint (depends on T004)
+- [x] T006 [P] Write `src/http/app.spec.ts`: smoke test that `getApplication(...)` builds
       successfully and boots via `app.inject()` against a trivial route (depends on T004)
 
 **Checkpoint**: Foundation ready — route implementation can now begin
@@ -60,47 +60,47 @@ one full path to a terminal outcome, per quickstart.md's User Story 1 walkthroug
 
 ### Tests for User Story 1 (write FIRST, must fail before implementation)
 
-- [X] T007 [P] [US1] `route.spec.ts` for `POST /applications` in
+- [x] T007 [P] [US1] `route.spec.ts` for `POST /applications` in
       `src/slices/submit-application/route.spec.ts` — 201 + `applicationId` on success, 400 on
       missing required fields (e.g. no `company`)
-- [X] T008 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/interviews` in
+- [x] T008 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/interviews` in
       `src/slices/schedule-interview/route.spec.ts` — 200 on success, 400 on malformed body, 404
       on unknown `applicationId`, 409 on out-of-sequence round or closed application
-- [X] T009 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/interviews/outcome`
+- [x] T009 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/interviews/outcome`
       in `src/slices/record-interview-outcome/route.spec.ts` — same four-outcome coverage for
       `RecordInterviewOutcome`'s guards
-- [X] T010 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/offer` in
+- [x] T010 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/offer` in
       `src/slices/receive-offer/route.spec.ts` — same four-outcome coverage for `ReceiveOffer`'s
       guards (including 409 when the latest interview outcome wasn't Passed)
-- [X] T011 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/offer/accept` in
+- [x] T011 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/offer/accept` in
       `src/slices/accept-offer/route.spec.ts` — same four-outcome coverage for `AcceptOffer`
-- [X] T012 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/offer/decline` in
+- [x] T012 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/offer/decline` in
       `src/slices/decline-offer/route.spec.ts` — same four-outcome coverage for `DeclineOffer`
-- [X] T013 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/withdraw` in
+- [x] T013 [P] [US1] `route.spec.ts` for `POST /applications/:applicationId/withdraw` in
       `src/slices/withdraw-application/route.spec.ts` — same four-outcome coverage for
       `WithdrawApplication`
 
 ### Implementation for User Story 1
 
-- [X] T014 [P] [US1] Implement `route.ts` for `POST /applications` in
+- [x] T014 [P] [US1] Implement `route.ts` for `POST /applications` in
       `src/slices/submit-application/route.ts`: JSON Schema body validation, generate
       `applicationId` via `crypto.randomUUID()`, invoke `DeciderCommandHandler`, return 201
       (depends on T004, T007)
-- [X] T015 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/interviews` in
+- [x] T015 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/interviews` in
       `src/slices/schedule-interview/route.ts`: schema validation, `NotSubmitted` pre-check (404),
       `DeciderCommandHandler` + `IllegalStateError` → 409 (depends on T004, T008)
-- [X] T016 [P] [US1] Implement `route.ts` for
+- [x] T016 [P] [US1] Implement `route.ts` for
       `POST /applications/:applicationId/interviews/outcome` in
       `src/slices/record-interview-outcome/route.ts` (same shape; depends on T004, T009)
-- [X] T017 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/offer` in
+- [x] T017 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/offer` in
       `src/slices/receive-offer/route.ts` (same shape; depends on T004, T010)
-- [X] T018 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/offer/accept` in
+- [x] T018 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/offer/accept` in
       `src/slices/accept-offer/route.ts` (same shape; depends on T004, T011)
-- [X] T019 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/offer/decline`
+- [x] T019 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/offer/decline`
       in `src/slices/decline-offer/route.ts` (same shape; depends on T004, T012)
-- [X] T020 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/withdraw` in
+- [x] T020 [P] [US1] Implement `route.ts` for `POST /applications/:applicationId/withdraw` in
       `src/slices/withdraw-application/route.ts` (same shape; depends on T004, T013)
-- [X] T021 Register all 7 User Story 1 route plugins in `src/http/app.ts` (depends on
+- [x] T021 Register all 7 User Story 1 route plugins in `src/http/app.ts` (depends on
       T014-T020)
 
 **Checkpoint**: User Story 1 fully functional over HTTP — quickstart.md's Story 1 walkthrough
@@ -117,16 +117,16 @@ then confirm a single `app.inject()` GET returns exactly the open ones, most-idl
 
 ### Tests for User Story 2 (write FIRST, must fail before implementation)
 
-- [X] T022 [US2] `route.spec.ts` for `GET /applications/active` in
+- [x] T022 [US2] `route.spec.ts` for `GET /applications/active` in
       `src/read-models/active-pipeline/route.spec.ts` — most-idle-first ordering, closed
       applications excluded, empty list when no applications exist
 
 ### Implementation for User Story 2
 
-- [X] T023 [US2] Implement `route.ts` for `GET /applications/active` in
+- [x] T023 [US2] Implement `route.ts` for `GET /applications/active` in
       `src/read-models/active-pipeline/route.ts`: reads all streams from the shared store, calls
       the existing `project()` unchanged, returns 200 (depends on T004, T022)
-- [X] T024 [US2] Register the route plugin in `src/http/app.ts` (depends on T023)
+- [x] T024 [US2] Register the route plugin in `src/http/app.ts` (depends on T023)
 
 **Checkpoint**: User Stories 1 and 2 both work independently over HTTP
 
@@ -141,17 +141,17 @@ check via `app.inject()`, confirm it's absent from a subsequent active-overview 
 
 ### Tests for User Story 3 (write FIRST, must fail before implementation)
 
-- [X] T025 [US3] `route.spec.ts` for `POST /ghosting/check` in
+- [x] T025 [US3] `route.spec.ts` for `POST /ghosting/check` in
       `src/reactors/ghosting/route.spec.ts` — returns ghosted IDs when applicable, succeeds with
       an empty list when nothing is silent
 
 ### Implementation for User Story 3
 
-- [X] T026 [US3] Implement `route.ts` for `POST /ghosting/check` in
+- [x] T026 [US3] Implement `route.ts` for `POST /ghosting/check` in
       `src/reactors/ghosting/route.ts`: reads all streams, calls the existing
       `ghostSilentApplications()` unchanged, appends each resulting `ApplicationGhosted` event to
       its stream, returns the ghosted IDs (depends on T004, T025)
-- [X] T027 [US3] Register the route plugin in `src/http/app.ts` (depends on T026)
+- [x] T027 [US3] Register the route plugin in `src/http/app.ts` (depends on T026)
 
 **Checkpoint**: All three user stories independently functional over HTTP
 
@@ -159,11 +159,11 @@ check via `app.inject()`, confirm it's absent from a subsequent active-overview 
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [X] T028 Run quickstart.md's full curl walkthrough manually against `npm run start`, confirming
+- [x] T028 Run quickstart.md's full curl walkthrough manually against `npm run start`, confirming
       it matches the automated `app.inject()` suites
-- [X] T029 [P] Verify no shared `routes.ts` exists and every route file lives inside its owning
+- [x] T029 [P] Verify no shared `routes.ts` exists and every route file lives inside its owning
       slice/read-model/reactor folder (constitution Principle III compliance)
-- [X] T030 [P] Update `docs/BRIEF.md`'s Status section noting feature 003 is complete
+- [x] T030 [P] Update `docs/BRIEF.md`'s Status section noting feature 003 is complete
 
 ---
 

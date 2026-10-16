@@ -44,21 +44,21 @@ event-store level (spec.md Assumptions).
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Check | Result |
-|---|---|---|
-| I. Event Sourcing via Emmett (NON-NEGOTIABLE) | Routes call the existing deciders/projection/reactor via `DeciderCommandHandler` and `getInMemoryEventStore` — no direct state mutation introduced; still in-memory (Postgres remains deferred) | PASS |
-| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | Each route gets an HTTP-level test (via `app.inject()`) written first, covering success, guard rejection (409), validation rejection (400), and not-found (404) | PASS |
-| III. Granular Vertical Slice Architecture | Each route lives inside its existing slice folder (`src/slices/<command>/route.ts`, `src/read-models/active-pipeline/route.ts`, `src/reactors/ghosting/route.ts`) — no shared `routes.ts`; the only new shared file is `src/http/app.ts`, which is server *wiring* (registers each slice's route plugin), not business/handler logic, same category as `src/store/event-store.ts` from feature 001 | PASS |
-| IV. Decisive Greenfield Architecture | Fastify chosen outright (user-confirmed) over Express; error-mapping convention (400/404/409) decided outright in Phase 0, not hedged | PASS |
-| V. Simplicity: No Board, No Board-Driven Tooling | No board used; same Spec Kit chain as features 001/002 | PASS |
+| Principle                                        | Check                                                                                                                                                                                                                                                                                                                                                                                              | Result |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| I. Event Sourcing via Emmett (NON-NEGOTIABLE)    | Routes call the existing deciders/projection/reactor via `DeciderCommandHandler` and `getInMemoryEventStore` — no direct state mutation introduced; still in-memory (Postgres remains deferred)                                                                                                                                                                                                    | PASS   |
+| II. Test-First, Given-When-Then (NON-NEGOTIABLE) | Each route gets an HTTP-level test (via `app.inject()`) written first, covering success, guard rejection (409), validation rejection (400), and not-found (404)                                                                                                                                                                                                                                    | PASS   |
+| III. Granular Vertical Slice Architecture        | Each route lives inside its existing slice folder (`src/slices/<command>/route.ts`, `src/read-models/active-pipeline/route.ts`, `src/reactors/ghosting/route.ts`) — no shared `routes.ts`; the only new shared file is `src/http/app.ts`, which is server _wiring_ (registers each slice's route plugin), not business/handler logic, same category as `src/store/event-store.ts` from feature 001 | PASS   |
+| IV. Decisive Greenfield Architecture             | Fastify chosen outright (user-confirmed) over Express; error-mapping convention (400/404/409) decided outright in Phase 0, not hedged                                                                                                                                                                                                                                                              | PASS   |
+| V. Simplicity: No Board, No Board-Driven Tooling | No board used; same Spec Kit chain as features 001/002                                                                                                                                                                                                                                                                                                                                             | PASS   |
 
 No violations — Complexity Tracking table is not needed.
 
-*Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
+_Re-checked post-Phase 1 design (data-model.md, contracts/, quickstart.md): still PASS on all
 five principles — routes stay co-located per slice, no shared routes.ts introduced, and the
-error-mapping approach (research.md) touches no existing decider logic.*
+error-mapping approach (research.md) touches no existing decider logic._
 
 ## Project Structure
 
@@ -129,4 +129,4 @@ src/
 
 ## Complexity Tracking
 
-*No violations — table omitted.*
+_No violations — table omitted._

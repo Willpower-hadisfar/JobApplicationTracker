@@ -27,8 +27,7 @@ npm run start                  # migrates the schema on startup, then serves on 
 
 ## Manual verification (spec.md's acceptance scenarios)
 
-1. With the server running, submit and progress a few applications through the browser (feature
-   004) or `curl` (feature 003) — same as before, no API changes.
+1. With the server running, submit and progress a few applications through the browser (feature 004) or `curl` (feature 003) — same as before, no API changes.
 2. Stop the server (`Ctrl+C`), then run `npm run start` again.
 3. Reload the overview and a couple of application detail pages.
    - Expect: every application, its full history, and its current stage are exactly as they were

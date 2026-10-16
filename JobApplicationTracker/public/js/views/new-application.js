@@ -1,4 +1,4 @@
-import { submitApplication } from "../api-client.js";
+import { submitApplication } from '../api-client.js';
 
 const formHtml = () => `
   <h2>New application</h2>
@@ -23,43 +23,42 @@ const formHtml = () => `
   </form>
 `;
 
-const toBody = (formData) => {
-  const salaryAmount = formData.get("salaryAmount");
-  const salaryCurrency = formData.get("salaryCurrency");
-  const bonusAmount = formData.get("bonusAmount");
-  const bonusCurrency = formData.get("bonusCurrency");
-  const benefits = formData.get("benefits");
+const toBody = formData => {
+  const salaryAmount = formData.get('salaryAmount');
+  const salaryCurrency = formData.get('salaryCurrency');
+  const bonusAmount = formData.get('bonusAmount');
+  const bonusCurrency = formData.get('bonusCurrency');
+  const benefits = formData.get('benefits');
 
   return {
-    company: formData.get("company"),
-    role: formData.get("role"),
-    location: formData.get("location"),
-    employmentType: formData.get("employmentType"),
-    ...(salaryAmount && salaryCurrency
-      ? { salary: { amount: Number(salaryAmount), currency: salaryCurrency } }
-      : {}),
-    ...(bonusAmount && bonusCurrency
-      ? { bonus: { amount: Number(bonusAmount), currency: bonusCurrency } }
-      : {}),
+    company: formData.get('company'),
+    role: formData.get('role'),
+    location: formData.get('location'),
+    employmentType: formData.get('employmentType'),
+    ...(salaryAmount && salaryCurrency ? { salary: { amount: Number(salaryAmount), currency: salaryCurrency } } : {}),
+    ...(bonusAmount && bonusCurrency ? { bonus: { amount: Number(bonusAmount), currency: bonusCurrency } } : {}),
     benefits: benefits
-      ? benefits.split(",").map((b) => b.trim()).filter(Boolean)
+      ? benefits
+          .split(',')
+          .map(b => b.trim())
+          .filter(Boolean)
       : [],
   };
 };
 
-export const renderNewApplication = (element) => {
+export const renderNewApplication = element => {
   element.innerHTML = formHtml();
-  const form = element.querySelector("#new-application-form");
-  const errorEl = element.querySelector("#new-application-error");
+  const form = element.querySelector('#new-application-form');
+  const errorEl = element.querySelector('#new-application-error');
 
-  form.addEventListener("submit", async (event) => {
+  form.addEventListener('submit', async event => {
     event.preventDefault();
     errorEl.hidden = true;
 
     const result = await submitApplication(toBody(new FormData(form)));
 
     if (!result.ok) {
-      errorEl.textContent = result.message ?? "Something went wrong.";
+      errorEl.textContent = result.message ?? 'Something went wrong.';
       errorEl.hidden = false;
       return;
     }

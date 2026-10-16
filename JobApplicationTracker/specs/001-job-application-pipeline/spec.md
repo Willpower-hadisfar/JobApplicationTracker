@@ -8,7 +8,7 @@
 
 **Input**: User description: "Track job applications through a multi-round interview pipeline to a terminal outcome (accepted, declined, withdrawn, or ghosted), with a read-only overview of active applications and automatic detection of applications that have gone silent." (derived from `docs/BRIEF.md`, the pre-agreed design for this project)
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Track an application from submission to a terminal outcome (Priority: P1)
 
@@ -60,19 +60,19 @@ If an open application has had no activity for a defined period of silence, the 
 
 ### Edge Cases
 
-- What happens when the seeker tries to schedule interview round *N+1* before round *N*'s outcome has been recorded? → Rejected; the system must reject the action and leave the application unchanged.
+- What happens when the seeker tries to schedule interview round _N+1_ before round _N_'s outcome has been recorded? → Rejected; the system must reject the action and leave the application unchanged.
 - What happens when the seeker tries to record an offer when the most recent interview outcome was not "passed" (including when no interview has happened yet)? → Rejected.
 - What happens when the seeker tries to take any action (schedule an interview, record an outcome, record an offer, accept/decline an offer, withdraw) on an application that is already closed (accepted, declined, withdrawn, or ghosted)? → Rejected; closed applications are immutable going forward.
 - What happens when an interview round outcome is recorded as "rejected" rather than "passed"? → The application should reach a closed, rejected-style terminal outcome rather than allowing further interview rounds or an offer.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
 - **FR-001**: Users MUST be able to submit a new application, recording at minimum the company and role.
 - **FR-002**: Users MUST be able to schedule an interview round for an open application.
 - **FR-003**: Users MUST be able to record the outcome (passed or rejected) of a scheduled interview round.
-- **FR-004**: System MUST prevent scheduling interview round *N+1* until round *N*'s outcome has been recorded.
+- **FR-004**: System MUST prevent scheduling interview round _N+1_ until round _N_'s outcome has been recorded.
 - **FR-005**: Users MUST be able to record a received offer for an application, but only when the most recently recorded interview outcome for that application was "passed".
 - **FR-006**: Users MUST be able to accept a received offer, which closes the application in an "accepted" state.
 - **FR-007**: Users MUST be able to decline a received offer, which closes the application in a "declined" state.
@@ -90,12 +90,12 @@ If an open application has had no activity for a defined period of silence, the 
 - **Interview Round**: A single round of interviews within an application's pipeline. Key attributes: round number, scheduled date, outcome (pending, passed, or rejected). Belongs to exactly one application; rounds are sequential.
 - **Offer**: A job offer associated with an application, only valid once the most recent interview round passed. Key attributes: amount, decision deadline, decision (pending, accepted, declined).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
 - **SC-001**: A user can go from submitting a new application to it appearing in the active overview in under 30 seconds.
-- **SC-002**: 100% of out-of-sequence or invalid actions (scheduling round *N+1* early, recording an offer without a preceding "passed" outcome, acting on a closed application) are rejected rather than silently accepted or corrupting the application's recorded state.
+- **SC-002**: 100% of out-of-sequence or invalid actions (scheduling round _N+1_ early, recording an offer without a preceding "passed" outcome, acting on a closed application) are rejected rather than silently accepted or corrupting the application's recorded state.
 - **SC-003**: The active overview always reflects each open application's true current stage — never stale by more than the time it takes to record the most recent event.
 - **SC-004**: 100% of open applications that exceed the configured silence period are automatically transitioned to "ghosted" without any manual action.
 - **SC-005**: A user reviewing the active overview can identify which application has gone the longest without activity without cross-referencing any other source.

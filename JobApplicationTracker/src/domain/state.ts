@@ -1,30 +1,20 @@
-import type {
-  ApplicationEvent,
-  EmploymentType,
-  InterviewOutcome,
-  MonetaryAmount,
-} from "./events.js";
+import type { ApplicationEvent, EmploymentType, InterviewOutcome, MonetaryAmount } from './events.js';
 
-export type ApplicationStatus =
-  | "Open"
-  | "Accepted"
-  | "Declined"
-  | "Withdrawn"
-  | "Ghosted";
+export type ApplicationStatus = 'Open' | 'Accepted' | 'Declined' | 'Withdrawn' | 'Ghosted';
 
 export type InterviewRound = {
   round: number;
   date: string;
-  outcome: InterviewOutcome | "Pending";
+  outcome: InterviewOutcome | 'Pending';
 };
 
 export type Offer = {
   amount: number;
   deadline: string;
-  decision: "Pending" | "Accepted" | "Declined";
+  decision: 'Pending' | 'Accepted' | 'Declined';
 };
 
-export type NotSubmitted = { status: "NotSubmitted" };
+export type NotSubmitted = { status: 'NotSubmitted' };
 
 export type SubmittedApplication = {
   status: ApplicationStatus;
@@ -43,17 +33,14 @@ export type SubmittedApplication = {
 export type ApplicationState = NotSubmitted | SubmittedApplication;
 
 export const initialState = (): ApplicationState => ({
-  status: "NotSubmitted",
+  status: 'NotSubmitted',
 });
 
-export const evolve = (
-  state: ApplicationState,
-  event: ApplicationEvent,
-): ApplicationState => {
+export const evolve = (state: ApplicationState, event: ApplicationEvent): ApplicationState => {
   switch (event.type) {
-    case "ApplicationSubmitted":
+    case 'ApplicationSubmitted':
       return {
-        status: "Open",
+        status: 'Open',
         company: event.data.company,
         role: event.data.role,
         location: event.data.location,
@@ -65,66 +52,59 @@ export const evolve = (
         offer: undefined,
         lastActivityAt: event.metadata.now,
       };
-    case "InterviewScheduled": {
-      if (state.status === "NotSubmitted") return state;
+    case 'InterviewScheduled': {
+      if (state.status === 'NotSubmitted') return state;
       return {
         ...state,
-        rounds: [
-          ...state.rounds,
-          { round: event.data.round, date: event.data.date, outcome: "Pending" },
-        ],
+        rounds: [...state.rounds, { round: event.data.round, date: event.data.date, outcome: 'Pending' }],
         lastActivityAt: event.metadata.now,
       };
     }
-    case "InterviewCompleted": {
-      if (state.status === "NotSubmitted") return state;
+    case 'InterviewCompleted': {
+      if (state.status === 'NotSubmitted') return state;
       return {
         ...state,
-        rounds: state.rounds.map((r) =>
-          r.round === event.data.round
-            ? { ...r, outcome: event.data.outcome }
-            : r,
-        ),
+        rounds: state.rounds.map(r => (r.round === event.data.round ? { ...r, outcome: event.data.outcome } : r)),
         lastActivityAt: event.metadata.now,
       };
     }
-    case "OfferReceived": {
-      if (state.status === "NotSubmitted") return state;
+    case 'OfferReceived': {
+      if (state.status === 'NotSubmitted') return state;
       return {
         ...state,
         offer: {
           amount: event.data.amount,
           deadline: event.data.deadline,
-          decision: "Pending",
+          decision: 'Pending',
         },
         lastActivityAt: event.metadata.now,
       };
     }
-    case "OfferAccepted": {
-      if (state.status === "NotSubmitted") return state;
+    case 'OfferAccepted': {
+      if (state.status === 'NotSubmitted') return state;
       return {
         ...state,
-        status: "Accepted",
-        offer: state.offer && { ...state.offer, decision: "Accepted" },
+        status: 'Accepted',
+        offer: state.offer && { ...state.offer, decision: 'Accepted' },
         lastActivityAt: event.metadata.now,
       };
     }
-    case "OfferDeclined": {
-      if (state.status === "NotSubmitted") return state;
+    case 'OfferDeclined': {
+      if (state.status === 'NotSubmitted') return state;
       return {
         ...state,
-        status: "Declined",
-        offer: state.offer && { ...state.offer, decision: "Declined" },
+        status: 'Declined',
+        offer: state.offer && { ...state.offer, decision: 'Declined' },
         lastActivityAt: event.metadata.now,
       };
     }
-    case "ApplicationWithdrawn": {
-      if (state.status === "NotSubmitted") return state;
-      return { ...state, status: "Withdrawn", lastActivityAt: event.metadata.now };
+    case 'ApplicationWithdrawn': {
+      if (state.status === 'NotSubmitted') return state;
+      return { ...state, status: 'Withdrawn', lastActivityAt: event.metadata.now };
     }
-    case "ApplicationGhosted": {
-      if (state.status === "NotSubmitted") return state;
-      return { ...state, status: "Ghosted", lastActivityAt: event.metadata.now };
+    case 'ApplicationGhosted': {
+      if (state.status === 'NotSubmitted') return state;
+      return { ...state, status: 'Ghosted', lastActivityAt: event.metadata.now };
     }
   }
 };

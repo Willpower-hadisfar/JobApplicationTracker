@@ -1,5 +1,5 @@
-import pg from "pg";
-import { createEventStore } from "./event-store.js";
+import pg from 'pg';
+import { createEventStore } from './event-store.js';
 
 /**
  * Test-only helper: restores the shared testcontainer database to empty between tests that
@@ -17,8 +17,8 @@ export const resetDatabaseForTests = async (): Promise<void> => {
     `CREATE TABLE IF NOT EXISTS applications (
        application_id text PRIMARY KEY,
        submitted_at timestamptz NOT NULL DEFAULT now()
-     )`,
+     )`
   );
-  await pool.query("TRUNCATE TABLE applications");
+  await pool.query('TRUNCATE TABLE applications');
   await pool.end();
 };

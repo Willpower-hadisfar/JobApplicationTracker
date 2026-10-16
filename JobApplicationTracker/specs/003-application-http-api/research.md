@@ -40,7 +40,7 @@
     Schema request validation (via each route's `schema.body`) — before any decider logic runs.
   - **404 Not Found**: the referenced `applicationId` has no prior events at all. Detected by
     reading current state via `eventStore.aggregateStream(streamName, { evolve, initialState })`
-    *before* invoking `DeciderCommandHandler`, and checking the result's own `streamExists: boolean`
+    _before_ invoking `DeciderCommandHandler`, and checking the result's own `streamExists: boolean`
     flag (discovered during implementation — Emmett's `aggregateStream` already reports this
     directly, which is simpler and more robust than inferring non-existence from the domain's
     `NotSubmitted` state, so it's used instead of the originally-planned `state.status` check).
@@ -96,7 +96,7 @@
   YAGNI) — and it's a problem that disappears entirely once Postgres (a real "list applications"
   query) replaces the in-memory store later, so it isn't worth over-engineering now.
 - **Alternatives considered**: Emmett's `inMemoryMultiStreamProjection`/projection-store machinery
-  (rejected — meant for building read models that project *into* the `InMemoryDatabase`, which is
+  (rejected — meant for building read models that project _into_ the `InMemoryDatabase`, which is
   more machinery than a single ID list needs); scanning the store's internals directly (rejected —
   not part of its public API, would break on upgrade).
 

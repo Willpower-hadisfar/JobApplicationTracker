@@ -8,7 +8,7 @@
 
 **Input**: User description: "Expose the existing job application pipeline (submit, progress through interviews, offers, terminal outcomes, the active overview, and ghosting) over HTTP, so a future frontend (or any other external client) can drive it instead of only being callable from within the same process." (builds on features 001 and 002; precedes a frontend)
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Manage an application's lifecycle over HTTP (Priority: P1)
 
@@ -53,7 +53,7 @@ view feature 001's User Story 2 already provides in-process.
 
 **Why this priority**: Builds directly on User Story 1 — there is no overview to view until
 applications exist. Independent of ghosting (User Story 3): the overview already excludes closed
-applications regardless of *why* they closed.
+applications regardless of _why_ they closed.
 
 **Independent Test**: Using only HTTP requests, submit several applications at different stages
 (via User Story 1's endpoints) and confirm a single HTTP request returns exactly the open ones,
@@ -102,7 +102,7 @@ the active overview.
 - What happens when a client requests the overview or triggers ghosting with no applications in
   the system at all? → Succeeds with an empty result, not an error (covered above).
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -135,7 +135,7 @@ No new entities — this feature exposes feature 001/002's existing `Application
 `ActivePipelineEntry`, and the eight existing commands/events over HTTP; it does not change what
 is being tracked, only how it is reached.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -162,7 +162,7 @@ is being tracked, only how it is reached.
   level; this feature does not add HTTP-specific concurrency handling beyond what that already
   provides.
 - The ghosting check (User Story 3) is exposed as an on-demand trigger, not wired to any
-  scheduler or cron — automating *when* it runs is out of scope for this feature.
+  scheduler or cron — automating _when_ it runs is out of scope for this feature.
 - No pagination, filtering, or sorting options beyond the existing most-idle-first order are in
   scope for the active overview endpoint — it returns the same result feature 001's read model
   already produces.
